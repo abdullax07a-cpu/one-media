@@ -1,4 +1,4 @@
-const API = (window.ONE_MEDIA_API_BASE_URL || "").replace(/\/+$/, "");
+const api = window.OneMediaApi;
 const form = document.querySelector("#inspect-form");
 const urlInput = document.querySelector("#url");
 const statusBox = document.querySelector("#status");
@@ -102,12 +102,17 @@ async function readError(response, fallbackKey, responseData = null) {
 }
 
 async function isBackendAvailable() {
+  const requestUrl = api.url("/api/health");
   try {
-    const response = await fetch(`${API}/api/health`, {cache: "no-store"});
+    const response = await fetch(requestUrl, {cache: "no-store"});
+    if (!response.ok) {
+      await api.logHttpError("API health request failed.", requestUrl, response);
+      return false;
+    }
     const data = await response.json();
-    return response.ok && data?.status === "ok";
+    return data?.status === "ok";
   } catch (error) {
-    console.error("[One Media] API health request failed.", error);
+    api.logNetworkError("API health request failed.", requestUrl, error);
     return false;
   }
 }
@@ -269,16 +274,18 @@ form.addEventListener("submit", async (event) => {
   setStatus(null);
   setRequestActive(true, "scan");
 
+  const requestUrl = api.url("/api/inspect");
   try {
-    const response = await fetch(`${API}/api/inspect`, {
+    const response = await fetch(requestUrl, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({url: requestedUrl}),
     });
 
+    const errorResponse = response.clone();
     const data = await response.json();
     if (data?.success !== true) {
-      console.error("[One Media] Inspect request failed.", {status: response.status, detail: data?.detail});
+      await api.logHttpError("Inspect request failed.", requestUrl, errorResponse);
       setStatus(await readError(response, "errors.unsupportedUrl", data), "error");
       return;
     }
@@ -286,7 +293,7 @@ form.addEventListener("submit", async (event) => {
     populateResult(data, requestedUrl);
     setStatus(null);
   } catch (error) {
-    console.error("[One Media] Inspect API request could not be completed.", error);
+    api.logNetworkError("Inspect API request could not be completed.", requestUrl, error);
     setStatus(await isBackendAvailable() ? "errors.unsupportedUrl" : "errors.backendUnavailable", "error");
   } finally {
     setRequestActive(false);
