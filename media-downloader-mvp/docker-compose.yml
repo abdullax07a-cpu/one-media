@@ -18,4 +18,4 @@ services:
       CLEANUP_INTERVAL_SECONDS: ${CLEANUP_INTERVAL_SECONDS:-600}
       UVICORN_FORWARDED_ALLOW_IPS: ${UVICORN_FORWARDED_ALLOW_IPS:-127.0.0.1}
     tmpfs:
-      - /app/temp:rw,noexec,nosuid,size=${TEMP_STORAGE_SIZE:-2g}
+      - /app/temp:rw,noexec,nosuid,uid=10001,gid=10001,mode=0700,size=${TEMP_STORAGE_SIZE:-2g}
