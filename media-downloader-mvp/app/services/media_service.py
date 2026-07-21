@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 import re
 import threading
 import uuid
 from pathlib import Path
 from typing import Any, Callable
+from urllib.parse import urlparse
 
 import yt_dlp
 from fastapi import HTTPException, status
@@ -24,7 +26,67 @@ from app.services.temp_storage import TemporaryJobStorage
 
 
 SAFE_FORMAT_ID = re.compile(r"^[A-Za-z0-9_.:+,-]{1,200}$")
+SNAPCHAT_WATERMARKED_MESSAGE = (
+    "Snapchat only provided a branded Spotlight sharing preview; "
+    "a clean original video stream is unavailable for this post."
+)
 ProgressCallback = Callable[[dict[str, Any]], None]
+logger = logging.getLogger(__name__)
+
+
+def _is_snapchat_watermarked_variant(media_url: str) -> bool:
+    parsed = urlparse(media_url)
+    return bool(re.search(r"\.27\.[^/]+$", parsed.path, re.IGNORECASE))
+
+
+def _select_clean_snapchat_format(info: dict[str, Any]) -> str:
+    candidates = list(info.get("formats") or [])
+    if not candidates and info.get("url"):
+        candidates = [info]
+
+    clean_candidates: list[dict[str, Any]] = []
+    for item in candidates:
+        media_url = str(item.get("url") or "")
+        parsed = urlparse(media_url)
+        watermarked = _is_snapchat_watermarked_variant(media_url)
+        logger.info(
+            "Snapchat format candidate id=%s resolution=%sx%s ext=%s host=%s path=%s rejected_watermarked=%s",
+            item.get("format_id"),
+            item.get("width"),
+            item.get("height"),
+            item.get("ext"),
+            parsed.hostname,
+            parsed.path,
+            watermarked,
+        )
+        if (
+            media_url
+            and parsed.scheme == "https"
+            and parsed.hostname
+            and (
+                parsed.hostname == "sc-cdn.net"
+                or parsed.hostname.endswith(".sc-cdn.net")
+            )
+            and item.get("vcodec") != "none"
+            and not watermarked
+        ):
+            clean_candidates.append(item)
+
+    if not clean_candidates:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=SNAPCHAT_WATERMARKED_MESSAGE,
+        )
+
+    selected = max(
+        clean_candidates,
+        key=lambda item: (
+            int(item.get("height") or 0) * int(item.get("width") or 0),
+            float(item.get("tbr") or 0),
+            int(item.get("filesize") or item.get("filesize_approx") or 0),
+        ),
+    )
+    return str(selected.get("format_id") or "0")
 
 
 class DownloadCanceledError(Exception):
@@ -193,6 +255,20 @@ class MediaService:
         try:
             if cancel_event and cancel_event.is_set():
                 raise DownloadCanceledError()
+            snapchat_format_id: str | None = None
+            if snapchat_spotlight and mode == "video":
+                try:
+                    with yt_dlp.YoutubeDL(self._base_options()) as ydl:
+                        snapchat_info = ydl.extract_info(url, download=False)
+                except Exception as exc:
+                    raise translate_extractor_error(exc, url) from exc
+                if not isinstance(snapchat_info, dict):
+                    raise HTTPException(
+                        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                        detail=SNAPCHAT_WATERMARKED_MESSAGE,
+                    )
+                snapchat_format_id = _select_clean_snapchat_format(snapchat_info)
+
             options: dict[str, Any] = {
                 **self._base_options(),
                 "skip_download": False,
@@ -208,7 +284,14 @@ class MediaService:
                 "postprocessor_hooks": [postprocessor_hook],
             }
 
-            if format_id:
+            if snapchat_format_id is not None:
+                if format_id is not None and format_id != snapchat_format_id:
+                    raise HTTPException(
+                        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                        detail=SNAPCHAT_WATERMARKED_MESSAGE,
+                    )
+                options["format"] = snapchat_format_id
+            elif format_id:
                 if not SAFE_FORMAT_ID.fullmatch(format_id):
                     raise HTTPException(
                         status_code=status.HTTP_400_BAD_REQUEST,

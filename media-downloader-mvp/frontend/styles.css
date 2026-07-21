@@ -2189,6 +2189,17 @@ html[dir="rtl"] .back-link svg {
 }
 
 @media (max-width: 680px) {
+  body.language-menu-open .nav-shell,
+  body.theme-menu-open .nav-shell {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .language-switcher.is-open,
+  .theme-switcher.is-open {
+    z-index: 100;
+  }
+
   .site-header {
     padding: 14px 14px 0;
   }
@@ -2243,6 +2254,7 @@ html[dir="rtl"] .back-link svg {
     padding: 12px;
     border-radius: 22px;
     animation-name: language-sheet-in;
+    z-index: 102;
   }
 
   .language-menu-heading,
@@ -2260,6 +2272,7 @@ html[dir="rtl"] .back-link svg {
 
   .language-backdrop,
   .theme-backdrop {
+    z-index: 101;
     background: var(--overlay);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
