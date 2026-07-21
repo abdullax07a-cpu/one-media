@@ -11,7 +11,11 @@
     <div class="footer-glow" aria-hidden="true"></div>
     <div class="footer-shell">
       <div class="footer-identity">
-        <img class="footer-product-logo" src="${root}/assets/one-media-logo.png" alt="" width="72" height="72" />
+        <div class="footer-brand-logos">
+          <img class="footer-product-logo" src="${root}/assets/one-media-logo.png" alt="" width="72" height="72" />
+          <i aria-hidden="true"></i>
+          <img class="footer-shexa-logo" src="${root}/assets/shexa-tech-logo.png" alt="" width="384" height="314" />
+        </div>
         <strong data-i18n="brand.name"></strong>
         <p><span data-i18n="footer.poweredBy"></span> <span data-i18n="brand.shexaTech"></span> - <span lang="ku" dir="rtl" data-i18n="brand.shexaKurdish"></span></p>
         <a class="support-link" href="${root}/support.html" data-i18n-aria-label="support.buttonAria">
