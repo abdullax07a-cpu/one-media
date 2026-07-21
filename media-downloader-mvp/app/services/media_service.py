@@ -26,67 +26,120 @@ from app.services.temp_storage import TemporaryJobStorage
 
 
 SAFE_FORMAT_ID = re.compile(r"^[A-Za-z0-9_.:+,-]{1,200}$")
-SNAPCHAT_WATERMARKED_MESSAGE = (
-    "Snapchat only provided a branded Spotlight sharing preview; "
-    "a clean original video stream is unavailable for this post."
-)
 ProgressCallback = Callable[[dict[str, Any]], None]
 logger = logging.getLogger(__name__)
 
+SNAPCHAT_VIDEO_EXTENSIONS = {"m4v", "mov", "mp4", "webm"}
+SNAPCHAT_IMAGE_EXTENSIONS = {"avif", "gif", "heic", "jpeg", "jpg", "png", "webp"}
+SNAPCHAT_AUDIO_EXTENSIONS = {"aac", "flac", "m4a", "mp3", "ogg", "opus", "wav"}
 
-def _is_snapchat_watermarked_variant(media_url: str) -> bool:
+
+def _snapchat_media_candidates(info: dict[str, Any]) -> list[dict[str, Any]]:
+    candidates = [dict(item) for item in info.get("formats") or [] if isinstance(item, dict)]
+    direct_url = str(info.get("url") or "")
+    if direct_url and not any(str(item.get("url") or "") == direct_url for item in candidates):
+        direct = dict(info)
+        direct["format_id"] = str(direct.get("format_id") or "0")
+        candidates.append(direct)
+    return candidates
+
+
+def _is_valid_snapchat_video(item: dict[str, Any]) -> bool:
+    media_url = str(item.get("url") or "")
     parsed = urlparse(media_url)
-    return bool(re.search(r"\.27\.[^/]+$", parsed.path, re.IGNORECASE))
+    if parsed.scheme not in {"http", "https"} or not parsed.hostname:
+        return False
+
+    extension = str(item.get("ext") or "").lower()
+    video_codec = str(item.get("vcodec") or "").lower()
+    descriptor = " ".join(
+        str(item.get(key) or "")
+        for key in ("format", "format_note", "format_id", "mime_type")
+    ).lower()
+    path = parsed.path.lower()
+
+    if video_codec == "none" or extension in SNAPCHAT_AUDIO_EXTENSIONS:
+        return False
+    if (
+        extension in SNAPCHAT_IMAGE_EXTENSIONS
+        or any(marker in descriptor for marker in ("thumbnail", "poster", "storyboard"))
+        or re.search(r"\.256\.[^/]+$", path)
+    ):
+        return False
+    if video_codec:
+        return True
+    return bool(
+        extension in SNAPCHAT_VIDEO_EXTENSIONS
+        or str(item.get("video_ext") or "").lower() in SNAPCHAT_VIDEO_EXTENSIONS
+        or (item.get("width") and item.get("height"))
+    )
 
 
-def _select_clean_snapchat_format(info: dict[str, Any]) -> str:
-    candidates = list(info.get("formats") or [])
-    if not candidates and info.get("url"):
-        candidates = [info]
+def _has_explicit_watermark_evidence(item: dict[str, Any]) -> bool:
+    descriptor = " ".join(
+        str(item.get(key) or "")
+        for key in ("format", "format_note", "format_id", "source", "url")
+    ).lower()
+    return "watermark" in descriptor or "watermarked" in descriptor
 
-    clean_candidates: list[dict[str, Any]] = []
+
+def _snapchat_video_rank(item: dict[str, Any]) -> tuple[int, int, int, float, int, int]:
+    parsed = urlparse(str(item.get("url") or ""))
+    host = parsed.hostname or ""
+    descriptor = " ".join(
+        str(item.get(key) or "")
+        for key in ("format", "format_note", "format_id", "source", "url")
+    ).lower()
+    is_snapchat_cdn = host == "sc-cdn.net" or host.endswith(".sc-cdn.net")
+    looks_like_preview = any(marker in descriptor for marker in ("preview", "sharing", "share", "export"))
+    priority = 3 if is_snapchat_cdn and not looks_like_preview else 2 if not looks_like_preview else 1
+    pixels = int(item.get("width") or 0) * int(item.get("height") or 0)
+    return (
+        priority,
+        pixels,
+        int(item.get("height") or 0),
+        float(item.get("tbr") or 0),
+        int(item.get("filesize") or item.get("filesize_approx") or 0),
+        int(str(item.get("acodec") or "").lower() not in {"", "none"}),
+    )
+
+
+def _select_snapchat_video_candidate(info: dict[str, Any]) -> dict[str, Any]:
+    candidates = _snapchat_media_candidates(info)
+
     for item in candidates:
         media_url = str(item.get("url") or "")
         parsed = urlparse(media_url)
-        watermarked = _is_snapchat_watermarked_variant(media_url)
+        valid_video = _is_valid_snapchat_video(item)
+        explicit_watermark = _has_explicit_watermark_evidence(item)
         logger.info(
-            "Snapchat format candidate id=%s resolution=%sx%s ext=%s host=%s path=%s rejected_watermarked=%s",
+            "Snapchat format candidate id=%s resolution=%sx%s ext=%s vcodec=%s acodec=%s host=%s path=%s valid_video=%s explicit_watermark=%s",
             item.get("format_id"),
             item.get("width"),
             item.get("height"),
             item.get("ext"),
+            item.get("vcodec"),
+            item.get("acodec"),
             parsed.hostname,
             parsed.path,
-            watermarked,
+            valid_video,
+            explicit_watermark,
         )
-        if (
-            media_url
-            and parsed.scheme == "https"
-            and parsed.hostname
-            and (
-                parsed.hostname == "sc-cdn.net"
-                or parsed.hostname.endswith(".sc-cdn.net")
-            )
-            and item.get("vcodec") != "none"
-            and not watermarked
-        ):
-            clean_candidates.append(item)
-
-    if not clean_candidates:
+    valid_candidates = [
+        item
+        for item in candidates
+        if _is_valid_snapchat_video(item) and not _has_explicit_watermark_evidence(item)
+    ]
+    if not valid_candidates:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail=SNAPCHAT_WATERMARKED_MESSAGE,
+            detail="No downloadable Snapchat video format was found.",
         )
+    return max(valid_candidates, key=_snapchat_video_rank)
 
-    selected = max(
-        clean_candidates,
-        key=lambda item: (
-            int(item.get("height") or 0) * int(item.get("width") or 0),
-            float(item.get("tbr") or 0),
-            int(item.get("filesize") or item.get("filesize_approx") or 0),
-        ),
-    )
-    return str(selected.get("format_id") or "0")
+
+def _select_snapchat_format(info: dict[str, Any]) -> str:
+    return str(_select_snapchat_video_candidate(info).get("format_id") or "0")
 
 
 class DownloadCanceledError(Exception):
@@ -136,14 +189,20 @@ class MediaService:
         self._enforce_limits(info)
 
         formats: list[MediaFormat] = []
-        for item in info.get("formats") or []:
+        snapchat_spotlight = is_snapchat_spotlight_url(url)
+        extracted_formats = (
+            [item for item in _snapchat_media_candidates(info) if _is_valid_snapchat_video(item)]
+            if snapchat_spotlight
+            else info.get("formats") or []
+        )
+        for item in extracted_formats:
             format_id = str(item.get("format_id") or "")
             if not format_id:
                 continue
 
             video_codec = item.get("vcodec")
             audio_codec = item.get("acodec")
-            has_video = video_codec not in (None, "none")
+            has_video = _is_valid_snapchat_video(item) if snapchat_spotlight else video_codec not in (None, "none")
             has_audio = audio_codec not in (None, "none")
 
             formats.append(
@@ -265,9 +324,28 @@ class MediaService:
                 if not isinstance(snapchat_info, dict):
                     raise HTTPException(
                         status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                        detail=SNAPCHAT_WATERMARKED_MESSAGE,
+                        detail="No downloadable Snapchat video format was found.",
                     )
-                snapchat_format_id = _select_clean_snapchat_format(snapchat_info)
+                selected_candidate = _select_snapchat_video_candidate(snapchat_info)
+                valid_format_ids = {
+                    str(item.get("format_id") or "0")
+                    for item in _snapchat_media_candidates(snapchat_info)
+                    if _is_valid_snapchat_video(item) and not _has_explicit_watermark_evidence(item)
+                }
+                snapchat_format_id = (
+                    format_id
+                    if format_id is not None and format_id in valid_format_ids
+                    else str(selected_candidate.get("format_id") or "0")
+                )
+                chosen_candidate = next(
+                    (
+                        item
+                        for item in _snapchat_media_candidates(snapchat_info)
+                        if str(item.get("format_id") or "0") == snapchat_format_id
+                    ),
+                    selected_candidate,
+                )
+                snapchat_has_audio = str(chosen_candidate.get("acodec") or "").lower() not in {"", "none"}
 
             options: dict[str, Any] = {
                 **self._base_options(),
@@ -285,12 +363,12 @@ class MediaService:
             }
 
             if snapchat_format_id is not None:
-                if format_id is not None and format_id != snapchat_format_id:
-                    raise HTTPException(
-                        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                        detail=SNAPCHAT_WATERMARKED_MESSAGE,
-                    )
-                options["format"] = snapchat_format_id
+                options["format"] = (
+                    snapchat_format_id
+                    if snapchat_has_audio
+                    else f"{snapchat_format_id}+ba/{snapchat_format_id}"
+                )
+                options["merge_output_format"] = "mp4"
             elif format_id:
                 if not SAFE_FORMAT_ID.fullmatch(format_id):
                     raise HTTPException(
