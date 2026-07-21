@@ -1,4 +1,4 @@
-const API = "http://127.0.0.1:8000";
+const API = (window.ONE_MEDIA_API_BASE_URL || "").replace(/\/+$/, "");
 const form = document.querySelector("#inspect-form");
 const urlInput = document.querySelector("#url");
 const statusBox = document.querySelector("#status");
@@ -67,6 +67,10 @@ function isPublicHttpUrl(value) {
   }
 }
 
+function sanitizeMediaUrl(value) {
+  return value.trim().replace(/^\/+(https?:\/\/)/i, "$1");
+}
+
 function getKnownErrorKey(detail) {
   const keys = ["errors.story", "errors.privateContent", "errors.snapchatPrivate", "errors.snapchatUnsupported"];
   return keys.find((key) => detail === i18n.getSource(key)) || "";
@@ -99,10 +103,11 @@ async function readError(response, fallbackKey, responseData = null) {
 
 async function isBackendAvailable() {
   try {
-    const response = await fetch(`${API}/health`, {cache: "no-store"});
+    const response = await fetch(`${API}/api/health`, {cache: "no-store"});
     const data = await response.json();
     return response.ok && data?.status === "ok";
-  } catch {
+  } catch (error) {
+    console.error("[One Media] API health request failed.", error);
     return false;
   }
 }
@@ -247,7 +252,10 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
-  const requestedUrl = urlInput.value.trim();
+  const requestedUrl = sanitizeMediaUrl(urlInput.value);
+  if (urlInput.value !== requestedUrl) {
+    urlInput.value = requestedUrl;
+  }
   if (!isPublicHttpUrl(requestedUrl)) {
     setStatus("errors.invalidUrl", "error");
     urlInput.focus();
@@ -270,13 +278,15 @@ form.addEventListener("submit", async (event) => {
 
     const data = await response.json();
     if (data?.success !== true) {
+      console.error("[One Media] Inspect request failed.", {status: response.status, detail: data?.detail});
       setStatus(await readError(response, "errors.unsupportedUrl", data), "error");
       return;
     }
 
     populateResult(data, requestedUrl);
     setStatus(null);
-  } catch {
+  } catch (error) {
+    console.error("[One Media] Inspect API request could not be completed.", error);
     setStatus(await isBackendAvailable() ? "errors.unsupportedUrl" : "errors.backendUnavailable", "error");
   } finally {
     setRequestActive(false);
@@ -307,6 +317,7 @@ downloadButton.addEventListener("click", async (event) => {
     );
     setStatus("status.addedToQueue", "success");
   } catch (error) {
+    console.error("[One Media] Download job request failed.", error);
     if (error.response) {
       setStatus(await readError(error.response, "errors.downloadFailure"), "error");
     } else if (error instanceof TypeError && !await isBackendAvailable()) {
@@ -327,7 +338,7 @@ thumbnail.addEventListener("error", () => {
 });
 
 urlInput.addEventListener("input", () => {
-  if (inspectedUrl && urlInput.value.trim() !== inspectedUrl) {
+  if (inspectedUrl && sanitizeMediaUrl(urlInput.value) !== inspectedUrl) {
     inspectedUrl = "";
     inspectedFormats = [];
     inspectedData = null;

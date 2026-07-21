@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const API = "http://127.0.0.1:8000";
+  const API = (window.ONE_MEDIA_API_BASE_URL || "").replace(/\/+$/, "");
   const HISTORY_KEY = "one-media-download-history";
   const HISTORY_LIMIT = 20;
   const queue = new Map();
@@ -169,9 +169,11 @@
           updateJob(jobId, await response.json());
           return;
         }
-      } catch {
+      } catch (error) {
+        console.error("[One Media] Download progress fallback request failed.", error);
         // The shared error event below provides the localized UI message.
       }
+      console.error("[One Media] Download progress stream failed.", {jobId});
       stream.close();
       window.dispatchEvent(new CustomEvent("downloadmanagererror"));
     };
@@ -204,7 +206,8 @@
       renderQueueItem(item);
       addHistory({id: crypto.randomUUID(), title: item.title, thumbnail: item.thumbnail, platform: item.platform, completedAt: Date.now(), request: item.request});
       window.dispatchEvent(new CustomEvent("downloadmanagercomplete"));
-    } catch {
+    } catch (error) {
+      console.error("[One Media] Completed file request failed.", {jobId: item.jobId, error});
       item.status = "failed";
       renderQueueItem(item);
       window.dispatchEvent(new CustomEvent("downloadmanagererror"));
@@ -224,6 +227,7 @@
     if (!response.ok) {
       const error = new Error("job creation failed");
       error.response = response;
+      console.error("[One Media] Download job creation failed.", {status: response.status});
       throw error;
     }
     const created = await response.json();
@@ -235,9 +239,15 @@
   }
 
   async function cancel(jobId) {
-    const response = await fetch(`${API}/api/downloads/${jobId}`, {method: "DELETE"});
-    if (response.ok) {
-      updateJob(jobId, await response.json());
+    try {
+      const response = await fetch(`${API}/api/downloads/${jobId}`, {method: "DELETE"});
+      if (response.ok) {
+        updateJob(jobId, await response.json());
+      } else {
+        console.error("[One Media] Download cancellation failed.", {jobId, status: response.status});
+      }
+    } catch (error) {
+      console.error("[One Media] Download cancellation request failed.", {jobId, error});
     }
   }
 
@@ -248,6 +258,7 @@
     }
     const response = await fetch(`${API}/api/downloads/${jobId}/retry`, {method: "POST"});
     if (!response.ok) {
+      console.error("[One Media] Download retry failed.", {jobId, status: response.status});
       window.dispatchEvent(new CustomEvent("downloadmanagererror"));
       return;
     }
