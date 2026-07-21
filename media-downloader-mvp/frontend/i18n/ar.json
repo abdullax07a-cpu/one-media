@@ -1,0 +1,242 @@
+{
+  "page": {
+    "title": "One Media — كل الوسائط في مكان واحد",
+    "description": "نزّل مقاطع الفيديو والصور والصوت العامة من منصاتك المفضلة باستخدام One Media.",
+    "skipLink": "الانتقال إلى المحتوى"
+  },
+  "brand": {
+    "name": "One Media",
+    "homeAria": "العودة إلى الصفحة الرئيسية لـ One Media",
+    "shexaTech": "Shexa Tech",
+    "shexaKurdish": "شێخە تێک"
+  },
+  "languages": {
+    "label": "اللغة",
+    "select": "اختر اللغة",
+    "menuTitle": "اختر لغة",
+    "ku": "کوردی",
+    "ar": "العربية",
+    "en": "English"
+  },
+  "navigation": {
+    "platformsAria": "منصات التواصل المدعومة"
+  },
+  "hero": {
+    "eyebrow": "وسائط عامة بكل بساطة",
+    "titleLine1": "نزّل الوسائط",
+    "titleLine2": "من جميع المنصات",
+    "description": "نزّل الفيديو والصور والصوت من منصاتك المفضلة. احفظ المقاطع القصيرة والمنشورات العامة في مكان واحد.",
+    "urlLabel": "رابط الوسائط العامة",
+    "urlPlaceholder": "ألصق رابط وسائط عامة",
+    "scan": "فحص الوسائط",
+    "scanning": "جارٍ فحص تفاصيل الوسائط"
+  },
+  "result": {
+    "media": "وسائط",
+    "publicMedia": "وسائط عامة",
+    "autoQuality": "جودة تلقائية",
+    "ready": "جاهز للتنزيل",
+    "untitled": "وسائط بلا عنوان",
+    "creator": "الناشر",
+    "publicCreator": "ناشر عام",
+    "duration": "المدة",
+    "resolution": "الدقة",
+    "fileSize": "حجم الملف",
+    "calculatedOnDownload": "يُحسب عند التنزيل",
+    "mediaType": "نوع الوسائط",
+    "video": "فيديو / MP4",
+    "audio": "صوت / MP3",
+    "image": "صورة",
+    "quality": "الجودة",
+    "bestAvailableQuality": "أفضل جودة متاحة",
+    "bestAvailable": "الأفضل المتاح",
+    "originalImage": "الصورة الأصلية",
+    "withAudio": "مع الصوت",
+    "format": "صيغة",
+    "resolutionValue": "{{value}}p",
+    "thumbnailAlt": "معاينة {{title}}",
+    "download": "تنزيل الوسائط",
+    "preparingDownload": "جارٍ تجهيز التنزيل"
+  },
+  "status": {
+    "preparingFile": "جارٍ تجهيز ملف الوسائط.",
+    "downloadReady": "ملف التنزيل جاهز.",
+    "completed": "اكتمل",
+    "failed": "فشل",
+    "tryAgain": "حاول مرة أخرى",
+    "addedToQueue": "تمت الإضافة إلى قائمة التنزيل."
+  },
+  "errors": {
+    "invalidUrl": "يرجى إدخال رابط عام صالح يبدأ بـ http أو https.",
+    "unsupportedUrl": "هذا الرابط غير مدعوم أو غير متاح مؤقتاً.",
+    "unsupportedPlatform": "هذه المنصة غير مدعومة.",
+    "story": "تنزيل القصص غير مدعوم.",
+    "privateContent": "هذا المحتوى خاص أو يتطلب تسجيل الدخول ولا يمكن تنزيله.",
+    "snapchatPrivate": "يتطلب محتوى Snapchat هذا تصريحاً ولا يمكن تنزيله.",
+    "snapchatUnsupported": "رابط Snapchat Spotlight العام هذا غير مدعوم حالياً من مستخرج الوسائط.",
+    "backendUnavailable": "الخادم الخلفي غير متاح. شغّله ثم حاول مرة أخرى.",
+    "network": "حدث خطأ في الشبكة. يرجى المحاولة مرة أخرى.",
+    "downloadFailure": "فشل التنزيل. جرّب رابطاً أو صيغة أخرى.",
+    "scanFirst": "افحص رابطاً عاماً قبل التنزيل.",
+    "emptyDownload": "استجابة التنزيل فارغة."
+  },
+  "platforms": {
+    "eyebrow": "رابط واحد. جميع الصيغ.",
+    "title": "المنصات المدعومة",
+    "description": "ألصق رابطاً عاماً ودع One Media يتولى الباقي.",
+    "youtube": "يوتيوب",
+    "tiktok": "تيك توك",
+    "instagram": "إنستغرام",
+    "facebook": "فيسبوك",
+    "snapchat": "سناب شات",
+    "x": "إكس",
+    "pinterest": "بنترست",
+    "threads": "ثريدز",
+    "reddit": "ريديت",
+    "vimeo": "فيميو"
+  },
+  "footer": {
+    "poweredBy": "بدعم من",
+    "copyright": "© 2026 One Media.",
+    "rights": "جميع الحقوق محفوظة.",
+    "legalNavigation": "روابط قانونية ودعم",
+    "permissionDisclaimer": "نزّل فقط المحتوى الذي تملكه أو لديك إذن باستخدامه.",
+    "affiliationDisclaimer": "One Media أداة مستقلة وغير تابعة لـ YouTube أو TikTok أو Instagram أو Facebook أو Snapchat أو X أو Reddit أو Threads أو Pinterest أو Vimeo."
+  },
+  "theme": {
+    "label": "المظهر",
+    "select": "اختر المظهر",
+    "menuTitle": "اختر مظهراً",
+    "dark": "داكن",
+    "light": "فاتح",
+    "system": "النظام"
+  },
+  "support": {
+    "pageTitle": "الدعم — One Media",
+    "pageDescription": "تواصل مع Shexa Tech عبر منصتك المفضلة.",
+    "button": "الدعم",
+    "buttonAria": "فتح صفحة الدعم",
+    "back": "العودة إلى One Media",
+    "backAria": "العودة إلى One Media",
+    "eyebrow": "الدعم",
+    "brandName": "Shexa Tech - شێخە تێک",
+    "subtitle": "تواصل معنا عبر منصتك المفضلة",
+    "contactsTitle": "اختر منصة للتواصل",
+    "externalIndicator": "يفتح في علامة تبويب جديدة",
+    "openPage": "فتح الصفحة",
+    "openProfile": "فتح الملف الشخصي",
+    "startChat": "بدء المحادثة",
+    "sendEmail": "إرسال بريد إلكتروني",
+    "facebookDescription": "تابع أحدث أعمالنا وتحديثاتنا على فيسبوك.",
+    "facebookAria": "فتح صفحة Shexa Tech على فيسبوك في علامة تبويب جديدة",
+    "instagramDescription": "شاهد مشاريعنا وتحديثاتنا المرئية على إنستغرام.",
+    "instagramAria": "فتح ملف Shexa Tech على إنستغرام في علامة تبويب جديدة",
+    "tiktokDescription": "شاهد أحدث مقاطعنا القصيرة على تيك توك.",
+    "tiktokAria": "فتح ملف Shexa Tech على تيك توك في علامة تبويب جديدة",
+    "whatsapp": "واتساب",
+    "whatsappDescription": "تواصل مع Shexa Tech مباشرة عبر واتساب.",
+    "whatsappAria": "بدء محادثة واتساب مع Shexa Tech في علامة تبويب جديدة",
+    "email": "البريد الإلكتروني",
+    "emailDescription": "أرسل رسالة إلى فريق Shexa Tech.",
+    "emailAria": "إرسال بريد إلكتروني إلى Shexa Tech في علامة تبويب جديدة"
+  },
+  "queue": {
+    "eyebrow": "تقدم مباشر",
+    "title": "قائمة التنزيل",
+    "description": "تابع التنزيلات النشطة والتقدم والسرعة والوقت المتبقي.",
+    "emptyTitle": "قائمة التنزيل جاهزة",
+    "emptyDescription": "ستظهر الوسائط المفحوصة هنا عند بدء التنزيل.",
+    "unknownSize": "غير معروف",
+    "zeroBytes": "0 بايت",
+    "calculating": "جارٍ الحساب",
+    "secondsRemaining": "متبقي {{value}} ث",
+    "minutesRemaining": "متبقي {{value}} د",
+    "secondShort": "ث",
+    "progressAria": "تقدم تنزيل {{title}}",
+    "cancelAria": "إلغاء {{title}}",
+    "retry": "إعادة المحاولة",
+    "status": {
+      "queued": "في الانتظار",
+      "preparing": "جارٍ التحضير",
+      "downloading": "جارٍ التنزيل",
+      "finishing": "جارٍ الإنهاء",
+      "completed": "مكتمل",
+      "failed": "فشل",
+      "canceled": "ملغى"
+    }
+  },
+  "history": {
+    "eyebrow": "محفوظ على هذا الجهاز",
+    "title": "التنزيلات الأخيرة",
+    "description": "آخر التنزيلات المكتملة محفوظة محلياً في هذا المتصفح.",
+    "emptyTitle": "لا توجد تنزيلات حديثة",
+    "emptyDescription": "ستُحفظ التنزيلات المكتملة هنا.",
+    "downloadAgain": "تنزيل مرة أخرى",
+    "removeAria": "إزالة {{title}} من التنزيلات الأخيرة"
+  },
+  "legal": {
+    "back": "العودة إلى One Media",
+    "privacy": {
+      "pageTitle": "سياسة الخصوصية — One Media",
+      "title": "سياسة الخصوصية",
+      "intro": "صُمم One Media لمعالجة روابط الوسائط العامة بأقل قدر من جمع البيانات.",
+      "collectedTitle": "المعلومات التي نعالجها",
+      "collectedBody": "نعالج الرابط العام وبيانات الطلب التقنية اللازمة لتقديم الخدمة. لا نطلب بيانات تسجيل الدخول.",
+      "cookiesTitle": "ملفات تعريف الارتباط",
+      "cookiesBody": "لا يستخدم One Media ملفات تعريف ارتباط المنصات أو جلسات المتصفح ولا يتجاوز ضوابط الوصول. تُحفظ تفضيلات المظهر واللغة محلياً في متصفحك.",
+      "filesTitle": "ملفات التنزيل المؤقتة",
+      "filesBody": "تُخزن الوسائط مؤقتاً حتى يكتمل طلبك، ثم تُحذف بعد التسليم أو انتهاء المدة تلقائياً.",
+      "analyticsTitle": "التحليلات",
+      "analyticsBody": "لا يتضمن التطبيق حالياً تحليلات لجهات خارجية. إذا أضيفت مستقبلاً فستُحدّث هذه السياسة قبل بدء الجمع.",
+      "securityTitle": "الأمان",
+      "securityBody": "تُحظر عناوين الشبكات الخاصة، وتُفحص الروابط العامة، ويُرفض المحتوى المحمي بتسجيل الدخول.",
+      "retentionTitle": "الاحتفاظ بالبيانات",
+      "retentionBody": "يبقى سجل التنزيل في متصفحك فقط ويمكنك حذفه. معلومات مهام الخادم مؤقتة وتنتهي تلقائياً."
+    },
+    "terms": {
+      "pageTitle": "شروط الاستخدام — One Media",
+      "title": "شروط الاستخدام",
+      "intro": "باستخدام One Media، توافق على استخدام الخدمة بمسؤولية وبشكل قانوني.",
+      "responsibilityTitle": "مسؤوليتك",
+      "responsibilityBody": "أنت مسؤول عن الروابط والمحتوى الذي ترسله وعن الامتثال للقوانين وشروط المنصات.",
+      "permissionTitle": "الإذن مطلوب",
+      "permissionBody": "نزّل فقط المحتوى الذي تملكه أو الذي منحك صاحب الحقوق إذناً واضحاً لتنزيله.",
+      "prohibitedTitle": "الاستخدام المحظور",
+      "prohibitedBody": "لا تستخدم One Media للتنزيل غير القانوني أو الانتهاك أو المضايقة أو تجاوز ضوابط الوصول أو حركة المرور الآلية المسيئة.",
+      "refusalTitle": "حماية الخدمة",
+      "refusalBody": "يجوز لـ One Media رفض المحتوى الخاص أو الروابط غير المدعومة أو الطلبات المفرطة أو الاستخدام الذي يهدد الخدمة أو الآخرين.",
+      "availabilityTitle": "التوفر",
+      "availabilityBody": "قد تؤثر تغييرات المنصات في استخراج الوسائط العامة، ولا يوجد ضمان لاستمرار دعم كل رابط عام."
+    },
+    "copyright": {
+      "pageTitle": "إشعار حقوق النشر — One Media",
+      "title": "إشعار حقوق النشر",
+      "intro": "يحترم One Media المبدعين والحقوق المرتبطة بأعمالهم.",
+      "ownershipTitle": "الملكية الأصلية",
+      "ownershipBody": "تبقى حقوق النشر والحقوق ذات الصلة للمبدعين وأصحاب الحقوق الأصليين. لا يدّعي One Media ملكية الوسائط المنزلة.",
+      "permissionTitle": "التنزيل المصرح به فقط",
+      "permissionBody": "نزّل فقط ما أنشأته أو تملكه أو لديك إذن صريح أو حق قانوني لاستخدامه.",
+      "publicTitle": "الروابط العامة",
+      "publicBody": "يعالج One Media فقط الروابط المتاحة للعامة دون تسجيل الدخول. الإتاحة العامة لا تلغي قيود حقوق النشر.",
+      "respectTitle": "احترام المبدعين",
+      "respectBody": "لا تعد توزيع عمل المبدع أو نشره أو بيعه أو تعديله إلا إذا سمح إذنك أو القانون بذلك."
+    },
+    "contact": {
+      "pageTitle": "اتصل بنا — One Media",
+      "title": "الاتصال والدعم",
+      "intro": "يعمل One Media بدعم من Shexa Tech. اختر قناة دعم وسيساعدك فريقنا.",
+      "emailLabel": "بريد الدعم",
+      "socialTitle": "قنوات الدعم",
+      "openSupport": "عرض جميع خيارات الدعم"
+    }
+  },
+  "units": {
+    "byte": "بايت",
+    "kilobyte": "ك.ب",
+    "megabyte": "م.ب",
+    "gigabyte": "ج.ب"
+  },
+  "download": {
+    "fallbackFilename": "media-download"
+  }
+}

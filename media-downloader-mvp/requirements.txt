@@ -1,0 +1,5 @@
+fastapi==0.139.2
+uvicorn[standard]==0.51.0
+yt-dlp[default]==2026.7.4
+curl-cffi==0.15.0
+pydantic-settings==2.14.2

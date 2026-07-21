@@ -1,0 +1,21 @@
+services:
+  one-media:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: production
+      FRONTEND_ORIGINS: ${FRONTEND_ORIGINS:-http://localhost:8000}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1}
+      TEMP_ROOT: /app/temp/jobs
+      MAX_DURATION_SECONDS: ${MAX_DURATION_SECONDS:-1800}
+      MAX_FILE_SIZE_MB: ${MAX_FILE_SIZE_MB:-500}
+      DOWNLOAD_TTL_SECONDS: ${DOWNLOAD_TTL_SECONDS:-300}
+      DOWNLOAD_TIMEOUT_SECONDS: ${DOWNLOAD_TIMEOUT_SECONDS:-1800}
+      MAX_CONCURRENT_DOWNLOADS: ${MAX_CONCURRENT_DOWNLOADS:-2}
+      TEMP_FILE_MAX_AGE_SECONDS: ${TEMP_FILE_MAX_AGE_SECONDS:-3600}
+      CLEANUP_INTERVAL_SECONDS: ${CLEANUP_INTERVAL_SECONDS:-600}
+      UVICORN_FORWARDED_ALLOW_IPS: ${UVICORN_FORWARDED_ALLOW_IPS:-127.0.0.1}
+    tmpfs:
+      - /app/temp:rw,noexec,nosuid,size=${TEMP_STORAGE_SIZE:-2g}

@@ -1,0 +1,242 @@
+{
+  "page": {
+    "title": "One Media — All Media. One Place.",
+    "description": "Download public videos, images and audio from your favorite platforms with One Media.",
+    "skipLink": "Skip to content"
+  },
+  "brand": {
+    "name": "One Media",
+    "homeAria": "One Media home",
+    "shexaTech": "Shexa Tech",
+    "shexaKurdish": "شێخە تێک"
+  },
+  "languages": {
+    "label": "Language",
+    "select": "Select language",
+    "menuTitle": "Choose a language",
+    "ku": "کوردی",
+    "ar": "العربية",
+    "en": "English"
+  },
+  "navigation": {
+    "platformsAria": "Supported social platforms"
+  },
+  "hero": {
+    "eyebrow": "Public media, beautifully simple",
+    "titleLine1": "Download Media",
+    "titleLine2": "From Every Platform",
+    "description": "Download videos, images and audio from your favorite platforms. Save public reels, shorts and posts—all in one place.",
+    "urlLabel": "Public media URL",
+    "urlPlaceholder": "Paste a public media link",
+    "scan": "Scan media",
+    "scanning": "Scanning media details"
+  },
+  "result": {
+    "media": "Media",
+    "publicMedia": "Public media",
+    "autoQuality": "Auto quality",
+    "ready": "Ready to download",
+    "untitled": "Untitled media",
+    "creator": "Creator",
+    "publicCreator": "Public creator",
+    "duration": "Duration",
+    "resolution": "Resolution",
+    "fileSize": "File size",
+    "calculatedOnDownload": "Calculated on download",
+    "mediaType": "Media type",
+    "video": "Video / MP4",
+    "audio": "Audio / MP3",
+    "image": "Image",
+    "quality": "Quality",
+    "bestAvailableQuality": "Best available quality",
+    "bestAvailable": "Best available",
+    "originalImage": "Original image",
+    "withAudio": "with audio",
+    "format": "format",
+    "resolutionValue": "{{value}}p",
+    "thumbnailAlt": "Preview for {{title}}",
+    "download": "Download media",
+    "preparingDownload": "Preparing download"
+  },
+  "status": {
+    "preparingFile": "Preparing your media file.",
+    "downloadReady": "Your download is ready.",
+    "completed": "Completed",
+    "failed": "Failed",
+    "tryAgain": "Try again",
+    "addedToQueue": "Added to the download queue."
+  },
+  "errors": {
+    "invalidUrl": "Please enter a valid public http(s) URL.",
+    "unsupportedUrl": "This URL is unsupported or temporarily unavailable.",
+    "unsupportedPlatform": "This platform is not supported.",
+    "story": "Story downloads are not supported.",
+    "privateContent": "This content is private or requires login and cannot be downloaded.",
+    "snapchatPrivate": "This Snapchat content requires authorization and cannot be downloaded.",
+    "snapchatUnsupported": "This public Snapchat Spotlight URL is currently unsupported by the media extractor.",
+    "backendUnavailable": "The backend is unavailable. Start it and try again.",
+    "network": "A network error occurred. Please try again.",
+    "downloadFailure": "The download failed. Please try another URL or format.",
+    "scanFirst": "Scan a public URL before downloading.",
+    "emptyDownload": "The download response was empty."
+  },
+  "platforms": {
+    "eyebrow": "One link. Every format.",
+    "title": "Supported Platforms",
+    "description": "Paste a public link and let One Media handle the rest.",
+    "youtube": "YouTube",
+    "tiktok": "TikTok",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "snapchat": "Snapchat",
+    "x": "X",
+    "pinterest": "Pinterest",
+    "threads": "Threads",
+    "reddit": "Reddit",
+    "vimeo": "Vimeo"
+  },
+  "footer": {
+    "poweredBy": "Powered by",
+    "copyright": "© 2026 One Media.",
+    "rights": "All rights reserved.",
+    "legalNavigation": "Legal and support links",
+    "permissionDisclaimer": "Download only content that you own or have permission to use.",
+    "affiliationDisclaimer": "One Media is an independent tool and is not affiliated with YouTube, TikTok, Instagram, Facebook, Snapchat, X, Reddit, Threads, Pinterest or Vimeo."
+  },
+  "theme": {
+    "label": "Theme",
+    "select": "Select theme",
+    "menuTitle": "Choose a theme",
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System"
+  },
+  "support": {
+    "pageTitle": "Support — One Media",
+    "pageDescription": "Connect with Shexa Tech through your preferred platform.",
+    "button": "Support",
+    "buttonAria": "Open the Support page",
+    "back": "Back to One Media",
+    "backAria": "Return to One Media",
+    "eyebrow": "Support",
+    "brandName": "Shexa Tech - شێخە تێک",
+    "subtitle": "Connect with us through your preferred platform",
+    "contactsTitle": "Choose a contact platform",
+    "externalIndicator": "Opens in a new tab",
+    "openPage": "Open page",
+    "openProfile": "Open profile",
+    "startChat": "Start chat",
+    "sendEmail": "Send email",
+    "facebookDescription": "Follow our latest work and updates on Facebook.",
+    "facebookAria": "Open the Shexa Tech Facebook page in a new tab",
+    "instagramDescription": "See our projects and visual updates on Instagram.",
+    "instagramAria": "Open the Shexa Tech Instagram profile in a new tab",
+    "tiktokDescription": "Watch our latest short videos on TikTok.",
+    "tiktokAria": "Open the Shexa Tech TikTok profile in a new tab",
+    "whatsapp": "WhatsApp",
+    "whatsappDescription": "Contact Shexa Tech directly through WhatsApp.",
+    "whatsappAria": "Start a WhatsApp chat with Shexa Tech in a new tab",
+    "email": "Email",
+    "emailDescription": "Send a message to the Shexa Tech team.",
+    "emailAria": "Send an email to Shexa Tech in a new tab"
+  },
+  "queue": {
+    "eyebrow": "Live progress",
+    "title": "Download queue",
+    "description": "Track active downloads, progress, speed and remaining time.",
+    "emptyTitle": "Your queue is ready",
+    "emptyDescription": "Scanned media will appear here when you start a download.",
+    "unknownSize": "Unknown",
+    "zeroBytes": "0 B",
+    "calculating": "Calculating",
+    "secondsRemaining": "{{value}} sec left",
+    "minutesRemaining": "{{value}} min left",
+    "secondShort": "s",
+    "progressAria": "Download progress for {{title}}",
+    "cancelAria": "Cancel {{title}}",
+    "retry": "Retry",
+    "status": {
+      "queued": "Queued",
+      "preparing": "Preparing",
+      "downloading": "Downloading",
+      "finishing": "Finishing",
+      "completed": "Completed",
+      "failed": "Failed",
+      "canceled": "Canceled"
+    }
+  },
+  "history": {
+    "eyebrow": "Stored on this device",
+    "title": "Recent downloads",
+    "description": "Your latest completed downloads, kept locally in this browser.",
+    "emptyTitle": "No recent downloads",
+    "emptyDescription": "Completed downloads will be saved here.",
+    "downloadAgain": "Download again",
+    "removeAria": "Remove {{title}} from recent downloads"
+  },
+  "legal": {
+    "back": "Back to One Media",
+    "privacy": {
+      "pageTitle": "Privacy Policy — One Media",
+      "title": "Privacy Policy",
+      "intro": "One Media is designed to process public media links with minimal data collection.",
+      "collectedTitle": "Information we process",
+      "collectedBody": "We process the public URL you submit and technical request data needed to provide the service. We do not request account credentials.",
+      "cookiesTitle": "Cookies",
+      "cookiesBody": "One Media does not use platform cookies, import browser sessions, or use cookies to bypass access controls. Theme and language preferences are stored locally in your browser.",
+      "filesTitle": "Temporary download files",
+      "filesBody": "Downloaded media is stored temporarily while your request is completed, then removed after delivery or automatic expiry.",
+      "analyticsTitle": "Analytics",
+      "analyticsBody": "The current application does not include third-party analytics. If analytics are introduced, this policy will be updated before collection begins.",
+      "securityTitle": "Security",
+      "securityBody": "Private network addresses are blocked, public URLs are validated, and authentication-protected media is rejected.",
+      "retentionTitle": "Data retention",
+      "retentionBody": "Recent download history stays only in your browser and can be removed by you. Server-side job information is temporary and expires automatically."
+    },
+    "terms": {
+      "pageTitle": "Terms of Use — One Media",
+      "title": "Terms of Use",
+      "intro": "By using One Media, you agree to use the service responsibly and lawfully.",
+      "responsibilityTitle": "Your responsibility",
+      "responsibilityBody": "You are responsible for the URLs and content you submit and for complying with applicable laws and platform terms.",
+      "permissionTitle": "Permission required",
+      "permissionBody": "Download only content you own or content for which you have clear permission from the rights holder.",
+      "prohibitedTitle": "Prohibited use",
+      "prohibitedBody": "Do not use One Media for illegal downloading, infringement, harassment, access-control bypassing, or abusive automated traffic.",
+      "refusalTitle": "Service protection",
+      "refusalBody": "One Media may reject private content, unsupported links, excessive requests, or usage that threatens the service or others.",
+      "availabilityTitle": "Availability",
+      "availabilityBody": "Platform changes can affect public media extraction. The service is provided without a guarantee that every public URL will remain supported."
+    },
+    "copyright": {
+      "pageTitle": "Copyright Notice — One Media",
+      "title": "Copyright Notice",
+      "intro": "One Media respects creators and the rights attached to their work.",
+      "ownershipTitle": "Original ownership",
+      "ownershipBody": "Copyright and related rights remain with the original creators and rights holders. One Media does not claim ownership of downloaded media.",
+      "permissionTitle": "Authorized downloads only",
+      "permissionBody": "Only download content you created, own, or have explicit permission or a lawful right to use.",
+      "publicTitle": "Public URLs",
+      "publicBody": "One Media processes only URLs that are publicly accessible without login. Public availability does not remove copyright restrictions.",
+      "respectTitle": "Respect creators",
+      "respectBody": "Do not redistribute, publish, sell, or modify a creator's work unless your permission or applicable law allows it."
+    },
+    "contact": {
+      "pageTitle": "Contact — One Media",
+      "title": "Contact and Support",
+      "intro": "One Media is powered by Shexa Tech. Choose a support channel and our team will help you.",
+      "emailLabel": "Support email",
+      "socialTitle": "Support channels",
+      "openSupport": "View all support options"
+    }
+  },
+  "units": {
+    "byte": "B",
+    "kilobyte": "KB",
+    "megabyte": "MB",
+    "gigabyte": "GB"
+  },
+  "download": {
+    "fallbackFilename": "media-download"
+  }
+}
